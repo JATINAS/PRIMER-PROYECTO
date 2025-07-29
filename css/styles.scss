@@ -1,0 +1,356 @@
+/*AREA FOR VARIABLES*/
+$colorWhite: #fff;
+
+
+/* AREA FOR MIXINS */
+@mixin header {
+    width: 100%;
+    padding: 20px 50px;
+    background-color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+@mixin navbar($width) {
+    width: $width;
+    cursor: pointer;
+    display: inline-block;
+}
+@mixin banner {
+    width: 100%;
+    padding: 60px 0;
+    text-align: center;
+    background-image: url("../img/portal.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: $colorWhite;
+    background-position-y: 80%;
+}
+@mixin width-tot ($width, $mar-top, $mar-side, $font) {
+    width: $width;
+    margin: $mar-top $mar-side;
+    font-size: $font;
+}
+
+@mixin products {
+    width: 80%;
+    margin: 0 auto;
+    @extend %boxsizing;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+@mixin cart {
+    background-color: $colorWhite;
+    @extend %boxsizing;
+    height: 90%;
+    position: fixed;
+    bottom: 0;
+    box-shadow: -19px -1px 22px -15px rgba(0, 0, 0, 0.30);
+    transition: all 0.25s ease;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+@mixin menu {
+    background-color: #333;
+    @extend %boxsizing;
+    height: 100%;
+    position: fixed;
+    //left: -100%;
+    top: 100px;
+    box-shadow: -19px -1px 22px -15px rgba(0, 0, 0, 0.30);
+    transition: all 0.25s ease;
+}
+
+
+/*AREA FOR PLACEHOLDERS */
+%products-font {
+    font-family: "Lexend", Arial, Helvetica, sans-serif;
+    font-size: 15px;
+}
+%boxsizing {
+    box-sizing: border-box;
+    padding: 25px;
+}
+
+/*AREA FOR STYLES */
+body {
+    width: 100%;
+    @extend %products-font;
+    font-weight: 300;
+    color: #1d1d1d;
+    margin: 0;
+
+    .header {
+        @include header;
+        .header__menu, .header__car {
+            @include navbar(35px);
+            img {
+                width: 100%;
+            }
+            .cartCounter {
+                &.hidden {
+                    display: none;
+                }
+            }
+        }
+        .header__logo {
+            @include navbar(100px);
+        }
+    }
+
+    .menu {
+        @include menu;
+
+        &.showL {
+            left: 0;
+        }
+        &.hideL {
+            left: -100%;
+        }
+        .menu_title {
+            display: flex;
+            justify-content: space-between;
+            color: $colorWhite;
+
+            .x_icon {
+                cursor: pointer;
+                opacity: 0.5;
+            }
+        }
+        .menu_options {
+            border-bottom: 1px solid #636262;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            @extend %boxsizing;
+            color: $colorWhite;
+
+            h3 {
+                cursor: pointer;
+            }
+            a:link {
+                text-decoration: none;
+                color: #8a8787;
+            }
+            a:hover {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    .banner {
+        @include banner;
+        h2 {
+            @include width-tot (100%, 10px, 0, 30px);
+            font-weight: 600;
+        }
+        p {
+            @include width-tot (100%, 0, auto, 25px);
+        }
+    }
+
+    .products {
+        @include products;
+
+        .products__art {
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.25s ease-in-out;
+            margin-bottom: 5%;
+        
+            img {
+                width: 200px;
+                height: 250px;
+                margin-bottom: 15px;
+            }
+            h3 {
+                font-weight: 500;
+                @extend %products-font;
+                margin-bottom: 5px;
+            }
+            p {
+                font-weight: 300;
+                @extend %products-font;
+            }
+            .add {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .cart {
+        @include cart;
+
+        &.show {
+            right: 0;
+        }
+
+        h2 {
+            width: 100%;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            padding: 25px 0;
+            box-sizing: border-box;
+        }
+        .cart_products {
+            > div {
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            @extend %boxsizing;
+            }
+            img {
+                width: 60px;
+            }
+            p:nth-child(3) {
+                font-weight: 500;
+            }
+            .remove {
+                width: 25px;
+                cursor: pointer;
+            }
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            font-weight: 600;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            margin-top: 20px;
+
+        }
+    }
+}
+
+
+//-----------MEDIA QUERIES
+
+
+@media (min-width: 821px) {
+    .menu {
+        left: -100%;
+        width: 400px;        
+    }
+
+    .cart {
+        right: -100%;
+        width: 400px;
+    }
+}
+
+@media (max-width: 820px) {
+    header {
+        padding: 15px;
+
+        .header__logo {
+            width: 60px;
+        }
+        .header__menu {
+            width: 30px;
+        }
+    }
+
+    .menu {
+        left: -100%;
+        width: 400px;
+    }
+    
+    .products {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+        img {
+            width: 150px;
+        }
+    }
+    
+    .cart {
+        width: 400px;
+        right: -270%;
+        transition: all 0.25s ease;
+    }
+} 
+
+@media (max-width: 500px) {
+    .banner {
+        padding: 30px 0;
+
+        h2 {
+            font-size: 18px;
+        }
+        p {
+            font-size: 16px;
+        }
+    }
+
+    .menu {
+        display: none;
+        width: 100%;
+
+        &.showL {
+            display: inherit;
+            transition: all 0.5s ease;
+        }
+        &.hideL {
+            display: none;
+            transition: all 0.5s ease;
+        }
+        &.show {
+            right: 0;
+            display: inherit;
+            transition: all 0.5s ease;
+        }
+    }
+    
+    .products {
+        grid-template-columns: 1fr;
+        padding: 10px;
+
+        img {
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 10px;
+        }
+        h3, p {
+            padding: 0 10px;
+        }
+    }
+    
+    
+    .cart {
+        width: 100%;
+        display: none;
+        transition: all 0.5s ease;
+        box-shadow: none;
+        right: -270%;
+
+        &.show {
+            display: inherit;
+            box-shadow: none;
+            transition: all 0.5s ease;
+        }
+
+        h2 {
+            padding: 15px 0;
+        }
+        div {
+            flex-direction: column;
+            align-items: center;
+
+            img {
+                width: 100px;
+            }
+            p {
+                margin: 0;
+            }
+        }
+    } 
+}
